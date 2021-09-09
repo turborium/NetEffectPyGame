@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Name:        module3
+# Name:        main
 # Purpose:
 #
 # Author:      crazzzypeter
@@ -16,7 +16,7 @@ import math
 
 WIDTH=320*2
 HEIGHT=240*2
-FADEDISTANCE=100
+FADEDISTANCE=110
 POINTSCOUNT=50
 
 @dataclass
@@ -55,8 +55,7 @@ def update():
         if point.y > HEIGHT:
           point.dy = -abs(point.dy)
 
-def draw(surface):
-    alpha_surface = pygame.Surface(surface.get_size(), pygame.SRCALPHA)
+def draw(surface, alpha_surface):
     for i in range(0, len(points)):
         for j in range(i + 1, len(points)):
             # вычисляем расстояние между линиями в -00 -> 0..1
@@ -80,12 +79,12 @@ def draw(surface):
 def main():
     pygame.init()
     surface = pygame.display.set_mode(size=(WIDTH,HEIGHT), depth=32)
+    alpha_surface = pygame.Surface(surface.get_size(), pygame.SRCALPHA)
     clock = pygame.time.Clock()
-
-    is_running = True
 
     init()
 
+    is_running = True
     while is_running:
         # events
         for event in pygame.event.get():
@@ -96,7 +95,7 @@ def main():
 
         # draw
         surface.fill([0,0,0]) # white background
-        draw(surface)
+        draw(surface, alpha_surface)
 
         clock.tick(30)
 
